@@ -160,6 +160,29 @@
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 1.2rem;
   }
+  .category-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem; margin-top: 2.5rem;
+  }
+  .category-title {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
+    color: var(--accent); text-transform: uppercase; white-space: nowrap;
+  }
+  .category-line {
+    flex: 1; height: 1px; background: rgba(255,255,255,0.08);
+  }
+  .product-card.monster {
+    background: linear-gradient(135deg, #0f1a0a 0%, #141414 100%);
+    border-color: rgba(0,220,50,0.2);
+  }
+  .product-card.monster:hover { border-color: #00dc32; }
+  .product-card.monster::before { background: #00dc32; }
+  .product-card.monster .product-price { color: #00dc32; }
+  .product-card.monster .add-btn {
+    background: rgba(0,220,50,0.1); color: #00dc32;
+    border-color: rgba(0,220,50,0.25);
+  }
+  .product-card.monster .add-btn:hover { background: #00dc32; color: #000; }
   .product-card {
     background: #141414; border-radius: var(--radius);
     border: 1px solid rgba(255,255,255,0.07);
@@ -251,6 +274,26 @@
   .footer-logo { font-size: 1.1rem; font-weight: 900; color: var(--accent); }
   .footer-text { font-size: 0.8rem; color: rgba(255,255,255,0.25); font-weight: 300; }
 
+  /* CART BUTTON */
+  .cart-fab {
+    position: fixed; left: 1.5rem; bottom: 2rem; z-index: 150;
+    background: var(--accent); color: var(--black);
+    border: none; border-radius: 100px;
+    padding: 0.75rem 1.3rem;
+    font-family: 'Heebo', sans-serif; font-size: 0.95rem; font-weight: 900;
+    cursor: pointer; box-shadow: 0 4px 20px rgba(200,245,90,0.35);
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .cart-fab:hover { background: var(--accent-dark); transform: scale(1.05); }
+  .cart-fab .cart-count {
+    background: var(--black); color: var(--accent);
+    border-radius: 100px; padding: 0.1rem 0.5rem;
+    font-size: 0.8rem; font-weight: 900;
+    display: none;
+  }
+  .cart-fab .cart-count.show { display: inline-block; }
+
   /* SUCCESS MSG */
   .success-msg {
     display: none; background: rgba(200,245,90,0.08);
@@ -276,6 +319,7 @@
   <div class="logo">הלני שתייה</div>
   <ul class="nav-links">
     <li><a href="#products">מוצרים</a></li>
+    <li><a href="drinks.html">כל השתייה</a></li>
     <li><a href="#how">איך זה עובד</a></li>
     <li><a href="#order">הזמנה</a></li>
   </ul>
@@ -307,60 +351,127 @@
       <div class="section-label">המוצרים שלנו</div>
       <div class="section-title">בחר את הארגז שלך</div>
       <div class="section-sub">מגוון רחב של ארגזי שתייה — בכל גדלים ולכל אירוע.</div>
+      <div style="margin-top:1rem; font-size:0.9rem; color:rgba(255,255,255,0.4); font-weight:300;">
+        לא מוצא פה את מה שאתה רוצה? כנראה שיש לי —
+        <a href="https://wa.me/972502113545" target="_blank" style="color:#25d366; font-weight:600; text-decoration:none;">שלח הודעה בוואטסאפ ↗</a>
+      </div>
+    </div>
+    <!-- החברה המרכזית -->
+    <div class="category-header">
+      <div class="category-title">החברה המרכזית</div>
+      <div class="category-line"></div>
     </div>
     <div class="products-grid">
       <div class="product-card">
         <span class="product-emoji">🥤</span>
-        <div class="product-name">ארגז קולה קלאסיק</div>
-        <div class="product-desc">ארגז קוקה קולה קלאסיק — מושלם למסיבות ואירועים</div>
+        <div class="product-name">ארגז קולה</div>
+        <div class="product-desc">קוקה קולה קלאסיק — הטעם המוכר שכולם אוהבים</div>
         <div class="product-footer">
-          <div class="product-price">₪XX <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז קולה קלאסיק')">הוסף</button>
+          <div class="product-price">₪114 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז קולה')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">⚫</span>
+        <div class="product-name">ארגז קולה זירו</div>
+        <div class="product-desc">קוקה קולה זירו — ללא סוכר, עם כל הטעם</div>
+        <div class="product-footer">
+          <div class="product-price">₪114 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז קולה זירו')">הוסף</button>
         </div>
       </div>
       <div class="product-card">
         <span class="product-emoji">💚</span>
         <div class="product-name">ארגז ספרייט</div>
-        <div class="product-desc">ארגז ספרייט — קריר ומרענן</div>
+        <div class="product-desc">ספרייט — לימון ליים קריר ומרענן</div>
         <div class="product-footer">
-          <div class="product-price">₪XX <span>לארגז</span></div>
+          <div class="product-price">₪114 <span>לארגז</span></div>
           <button class="add-btn" onclick="selectProduct('ארגז ספרייט')">הוסף</button>
         </div>
       </div>
       <div class="product-card">
+        <span class="product-emoji">🌿</span>
+        <div class="product-name">ארגז ספרייט זירו</div>
+        <div class="product-desc">ספרייט זירו — ללא סוכר, מרענן כמו תמיד</div>
+        <div class="product-footer">
+          <div class="product-price">₪114 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז ספרייט זירו')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
         <span class="product-emoji">🍊</span>
-        <div class="product-name">ארגז פנטה תפוז</div>
-        <div class="product-desc">ארגז פנטה תפוז — טעם פירותי ומתוק</div>
+        <div class="product-name">ארגז פאנטה</div>
+        <div class="product-desc">פאנטה תפוז — טעם פירותי ומתוק לכל גיל</div>
         <div class="product-footer">
-          <div class="product-price">₪XX <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז פנטה תפוז')">הוסף</button>
+          <div class="product-price">₪114 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז פאנטה')">הוסף</button>
         </div>
       </div>
       <div class="product-card">
+        <span class="product-emoji">🍋</span>
+        <div class="product-name">ארגז פאנטה זירו</div>
+        <div class="product-desc">פאנטה זירו — פירותי ומתוק ללא סוכר</div>
+        <div class="product-footer">
+          <div class="product-price">₪114 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז פאנטה זירו')">הוסף</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- שתייה קלה -->
+    <div class="category-header">
+      <div class="category-title">שתייה קלה</div>
+      <div class="category-line"></div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <span class="product-emoji">💧</span>
+        <div class="product-name">ארגז מים 500 מ"ל</div>
+        <div class="product-desc">מים מינרליים — טריים ומרעננים לכל אירוע</div>
+        <div class="product-footer">
+          <div class="product-price">₪75 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז מים 500 מל')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">🫧</span>
+        <div class="product-name">ארגז סודה</div>
+        <div class="product-desc">סודה קלאסית — בועות מרעננות לכל שתייה</div>
+        <div class="product-footer">
+          <div class="product-price">₪95 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז סודה')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">🍋</span>
+        <div class="product-name">ארגז סודה בטעמים</div>
+        <div class="product-desc">סודה בטעמים שונים — מרענן ומגוון</div>
+        <select id="flavor-soda" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר טעם...</option>
+          <option>אפרסק</option>
+          <option>לימון</option>
+          <option>לימון ליים</option>
+        </select>
+        <div class="product-footer">
+          <div class="product-price">₪95 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז סודה בטעמים','flavor-soda')">הוסף</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- אנרגי -->
+    <div class="category-header">
+      <div class="category-title">אנרגי</div>
+      <div class="category-line"></div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card monster">
         <span class="product-emoji">⚡</span>
-        <div class="product-name">ארגז מעורב</div>
-        <div class="product-desc">שילוב של קולה, ספרייט ופנטה — לפי בחירתך</div>
+        <div class="product-name">ארגז מונסטר</div>
+        <div class="product-desc">מונסטר אנרגי — לכל מי שצריך את הבוסט הנכון</div>
         <div class="product-footer">
-          <div class="product-price">₪XX <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז מעורב')">הוסף</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <span class="product-emoji">🎉</span>
-        <div class="product-name">ארגז פנטה לימון</div>
-        <div class="product-desc">ארגז פנטה לימון — טעים, מרענן, מושלם לקיץ</div>
-        <div class="product-footer">
-          <div class="product-price">₪XX <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז פנטה לימון')">הוסף</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <span class="product-emoji">🔵</span>
-        <div class="product-name">ארגז פפסי</div>
-        <div class="product-desc">ארגז פפסי קלאסיק — הטעם המוכר שכולם אוהבים</div>
-        <div class="product-footer">
-          <div class="product-price">₪XX <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז פפסי')">הוסף</button>
+          <div class="product-price">₪185 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז מונסטר')">הוסף</button>
         </div>
       </div>
     </div>
@@ -413,8 +524,27 @@
         <input type="tel" id="phone" placeholder="050-0000000" />
       </div>
       <div class="form-row">
-        <label>כתובת למשלוח</label>
-        <input type="text" id="address" placeholder="רחוב, מספר, עיר" />
+        <label>בניין / מגדל</label>
+        <input type="text" id="building" placeholder="שם הבניין או המגדל" />
+      </div>
+      <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+        <div>
+          <label>קומה</label>
+          <input type="text" id="floor" placeholder="מספר קומה" />
+        </div>
+        <div>
+          <label>דירה</label>
+          <input type="text" id="apartment" placeholder="מספר דירה" />
+        </div>
+      </div>
+      <div class="form-row">
+        <label>איך משלמים?</label>
+        <select id="payment">
+          <option value="">בחר אופן תשלום...</option>
+          <option value="מזומן">💵 מזומן</option>
+          <option value="ביט">📱 ביט</option>
+          <option value="פייבוקס">📱 פייבוקס (5% הנחה)</option>
+        </select>
       </div>
       <div class="form-row">
         <label>מה תרצה להזמין?</label>
@@ -441,6 +571,12 @@
 </footer>
 
 <script>
+function selectWithFlavor(name, flavorId) {
+  const flavor = document.getElementById(flavorId).value;
+  if (!flavor) { alert('אנא בחר טעם'); return; }
+  selectProduct(name + ' — ' + flavor);
+}
+
 function selectProduct(name) {
   const ta = document.getElementById('product');
   ta.value = ta.value ? ta.value + '\n' + name : name;
@@ -451,16 +587,19 @@ function selectProduct(name) {
 function submitOrder() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const address = document.getElementById('address').value.trim();
+  const building = document.getElementById('building').value.trim();
+  const floor = document.getElementById('floor').value.trim();
+  const apartment = document.getElementById('apartment').value.trim();
+  const payment = document.getElementById('payment').value;
   const product = document.getElementById('product').value.trim();
   const notes = document.getElementById('notes').value.trim();
 
-  if (!name || !phone || !address || !product) {
+  if (!name || !phone || !building || !floor || !apartment || !payment || !product) {
     alert('אנא מלא את כל השדות החובה');
     return;
   }
 
-  const msg = `הזמנה חדשה מהאתר 🥤\n\nשם: ${name}\nטלפון: ${phone}\nכתובת: ${address}\nהזמנה: ${product}${notes ? '\nהערות: ' + notes : ''}`;
+  const msg = `הזמנה חדשה מהאתר 🥤\n\nשם: ${name}\nטלפון: ${phone}\nבניין/מגדל: ${building}\nקומה: ${floor} | דירה: ${apartment}\nתשלום: ${payment}\nהזמנה: ${product}${notes ? '\nהערות: ' + notes : ''}`;
   const url = `https://wa.me/972502113545?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 
