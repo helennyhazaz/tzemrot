@@ -340,7 +340,7 @@
     <div class="can can-green"><span>SPRITE</span></div>
     <div class="can can-orange"><span>FANTA</span></div>
     <div class="can can-blue"><span>PEPSI</span></div>
-    <div class="can can-yellow"><span>GOLD</span></div>
+    <div class="can can-yellow"><span>WATER</span></div>
   </div>
 </section>
 
@@ -457,6 +457,34 @@
           <button class="add-btn" onclick="selectWithFlavor('ארגז סודה בטעמים','flavor-soda')">הוסף</button>
         </div>
       </div>
+      <div class="product-card">
+        <span class="product-emoji">🔵</span>
+        <div class="product-name">ארגז פפסי</div>
+        <div class="product-desc">24 יחידות — ישראלי</div>
+        <select id="pepsi-variant" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר סוג...</option>
+          <option>פפסי רגיל</option>
+          <option>פפסי מקס</option>
+        </select>
+        <div class="product-footer">
+          <div class="product-price">₪114 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז פפסי','pepsi-variant')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">🍺</span>
+        <div class="product-name">ארגז בירה שחורה</div>
+        <div class="product-desc">24 יחידות — זכוכית</div>
+        <select id="beer-variant" onchange="updateBeerPrice()" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר סוג...</option>
+          <option value="נשר" data-price="145">נשר — ₪145</option>
+          <option value="מאלטי" data-price="150">מאלטי — ₪150</option>
+        </select>
+        <div class="product-footer">
+          <div class="product-price" id="beer-price">₪145 <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectBeer()">הוסף</button>
+        </div>
+      </div>
     </div>
 
     <!-- אנרגי -->
@@ -469,9 +497,16 @@
         <span class="product-emoji">⚡</span>
         <div class="product-name">ארגז מונסטר</div>
         <div class="product-desc">מונסטר אנרגי — לכל מי שצריך את הבוסט הנכון</div>
+        <select id="monster-variant" style="width:100%; background:#0f1a0a; border:1px solid rgba(0,220,50,0.2); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר סוג...</option>
+          <option>שחור</option>
+          <option>לבן</option>
+          <option>Full Throttle</option>
+          <option>The Doctor</option>
+        </select>
         <div class="product-footer">
           <div class="product-price">₪185 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז מונסטר')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז מונסטר','monster-variant')">הוסף</button>
         </div>
       </div>
     </div>
@@ -571,6 +606,20 @@
 </footer>
 
 <script>
+function updateBeerPrice() {
+  const sel = document.getElementById('beer-variant');
+  const opt = sel.options[sel.selectedIndex];
+  const price = opt.dataset.price || '145';
+  document.getElementById('beer-price').innerHTML = '₪' + price + ' <span>לארגז</span>';
+}
+
+function selectBeer() {
+  const sel = document.getElementById('beer-variant');
+  if (!sel.value) { alert('אנא בחר סוג בירה'); return; }
+  const price = sel.options[sel.selectedIndex].dataset.price;
+  selectProduct('ארגז בירה שחורה ' + sel.value + ' — ₪' + price);
+}
+
 function selectWithFlavor(name, flavorId) {
   const flavor = document.getElementById(flavorId).value;
   if (!flavor) { alert('אנא בחר טעם'); return; }
