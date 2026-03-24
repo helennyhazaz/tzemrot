@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הלני שתייה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray-light: #f5f5f3;
+    --gray-mid: #e8e8e4;
+    --gray-text: #888;
+    --accent: #c8f55a;
+    --accent-dark: #a8d83e;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .logo {
+    font-size: 1.5rem; font-weight: 900; letter-spacing: -0.5px;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem;
+    font-weight: 400; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--accent); color: var(--black);
+    border: none; padding: 0.55rem 1.4rem; border-radius: 100px;
+    font-family: 'Heebo', sans-serif; font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--accent-dark); transform: scale(1.03); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,245,90,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(200,245,90,0.12); color: var(--accent);
+    border: 1px solid rgba(200,245,90,0.3);
+    padding: 0.4rem 1.1rem; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    font-weight: 900; line-height: 1.0; letter-spacing: -2px;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 1.15rem; color: rgba(255,255,255,0.55);
+    max-width: 480px; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    background: var(--accent); color: var(--black);
+    padding: 0.85rem 2.2rem; border-radius: 100px;
+    font-family: 'Heebo', sans-serif; font-size: 1rem; font-weight: 700;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: scale(1.03); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 0.85rem 2.2rem; border-radius: 100px;
+    font-family: 'Heebo', sans-serif; font-size: 1rem; font-weight: 400;
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
+
+  /* FLOATING CANS DECORATION */
+  .cans-row {
+    display: flex; gap: 1rem; justify-content: center; align-items: center;
+    margin-top: 3.5rem; flex-wrap: wrap;
+  }
+  .can {
+    width: 60px; height: 90px; border-radius: 14px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 900; letter-spacing: -1px;
+    border: 1px solid rgba(255,255,255,0.12);
+    animation: float 3s ease-in-out infinite;
+  }
+  .can:nth-child(2) { animation-delay: 0.4s; }
+  .can:nth-child(3) { animation-delay: 0.8s; }
+  .can:nth-child(4) { animation-delay: 1.2s; }
+  .can:nth-child(5) { animation-delay: 1.6s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .can-red { background: linear-gradient(160deg, #c8172b, #8b0e1e); }
+  .can-green { background: linear-gradient(160deg, #1a9e4a, #0d5c2a); }
+  .can-orange { background: linear-gradient(160deg, #e8640c, #9e400a); }
+  .can-blue { background: linear-gradient(160deg, #0c5fc7, #07368a); }
+  .can-yellow { background: linear-gradient(160deg, #e8c50c, #9e840a); }
+  .can span { font-size: 0.55rem; font-weight: 700; opacity: 0.9; letter-spacing: 0.5px; margin-top: 4px; }
+
+  /* SECTION SHARED */
+  section { padding: 5rem 2rem; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900; letter-spacing: -1px; margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: rgba(255,255,255,0.45); font-size: 1rem;
+    font-weight: 300; max-width: 500px; line-height: 1.7;
+  }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* PRODUCTS */
+  #products { background: var(--black); }
+  .products-header { margin-bottom: 3rem; }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+  .product-card {
+    background: #141414; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 1.5rem; transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer; position: relative; overflow: hidden;
+  }
+  .product-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .product-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent); opacity: 0; transition: opacity 0.2s;
+  }
+  .product-card:hover::before { opacity: 1; }
+  .product-emoji { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+  .product-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .product-desc { font-size: 0.85rem; color: rgba(255,255,255,0.4); font-weight: 300; line-height: 1.5; margin-bottom: 1.2rem; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price {
+    font-size: 1.3rem; font-weight: 900; color: var(--accent);
+  }
+  .product-price span { font-size: 0.75rem; color: rgba(255,255,255,0.3); font-weight: 300; }
+  .add-btn {
+    background: rgba(200,245,90,0.1); color: var(--accent);
+    border: 1px solid rgba(200,245,90,0.25); border-radius: 100px;
+    padding: 0.4rem 1rem; font-family: 'Heebo', sans-serif;
+    font-size: 0.85rem; font-weight: 700; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .add-btn:hover { background: var(--accent); color: var(--black); }
+
+  /* HOW IT WORKS */
+  #how { background: #0d0d0d; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .step { text-align: center; }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(200,245,90,0.1); color: var(--accent);
+    border: 1px solid rgba(200,245,90,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 900; margin: 0 auto 1.2rem;
+  }
+  .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .step p { font-size: 0.88rem; color: rgba(255,255,255,0.4); line-height: 1.6; font-weight: 300; }
+
+  /* ORDER */
+  #order { background: var(--black); }
+  .order-box {
+    background: #141414; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 2.5rem; max-width: 600px; margin: 3rem auto 0;
+  }
+  .order-box h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .order-box p { color: rgba(255,255,255,0.45); font-size: 0.9rem; margin-bottom: 2rem; font-weight: 300; line-height: 1.6; }
+  .form-row { margin-bottom: 1rem; }
+  .form-row label { display: block; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.4rem; letter-spacing: 0.3px; }
+  .form-row input,
+  .form-row select,
+  .form-row textarea {
+    width: 100%; background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-sm); padding: 0.75rem 1rem;
+    color: var(--white); font-family: 'Heebo', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-row input:focus,
+  .form-row select:focus,
+  .form-row textarea:focus { border-color: var(--accent); }
+  .form-row textarea { resize: vertical; min-height: 100px; }
+  .form-row select option { background: #1e1e1e; }
+  .submit-btn {
+    width: 100%; background: var(--accent); color: var(--black);
+    border: none; border-radius: 100px; padding: 1rem;
+    font-family: 'Heebo', sans-serif; font-size: 1rem; font-weight: 900;
+    cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 0.5rem;
+  }
+  .submit-btn:hover { background: var(--accent-dark); transform: scale(1.01); }
+  .whatsapp-alt {
+    text-align: center; margin-top: 1.2rem;
+    font-size: 0.85rem; color: rgba(255,255,255,0.35); font-weight: 300;
+  }
+  .whatsapp-alt a { color: #25d366; text-decoration: none; font-weight: 500; }
+  .whatsapp-alt a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 2rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+    gap: 1rem;
+  }
+  .footer-logo { font-size: 1.1rem; font-weight: 900; color: var(--accent); }
+  .footer-text { font-size: 0.8rem; color: rgba(255,255,255,0.25); font-weight: 300; }
+
+  /* SUCCESS MSG */
+  .success-msg {
+    display: none; background: rgba(200,245,90,0.08);
+    border: 1px solid rgba(200,245,90,0.3); border-radius: var(--radius-sm);
+    padding: 1rem; text-align: center; color: var(--accent);
+    font-size: 0.9rem; font-weight: 500; margin-top: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.2rem 3rem; }
+    section { padding: 3.5rem 1.2rem; }
+    .order-box { padding: 1.5rem; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">הלני שתייה</div>
+  <ul class="nav-links">
+    <li><a href="#products">מוצרים</a></li>
+    <li><a href="#how">איך זה עובד</a></li>
+    <li><a href="#order">הזמנה</a></li>
+  </ul>
+  <a href="#order" class="nav-cta">להזמין עכשיו</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🚚 משלוח מהיר לאזורך</div>
+  <h1>שתייה<br><span>בגדול.</span></h1>
+  <p>ארגזי שתייה קרים ומרעננים — קולה, ספרייט, ועוד. משלוח ישיר אליך עם מחירים שלא תמצא במקום אחר.</p>
+  <div class="hero-btns">
+    <a href="#products" class="btn-primary">לצפייה במוצרים</a>
+    <a href="#order" class="btn-secondary">לביצוע הזמנה</a>
+  </div>
+  <div class="cans-row">
+    <div class="can can-red"><span>COLA</span></div>
+    <div class="can can-green"><span>SPRITE</span></div>
+    <div class="can can-orange"><span>FANTA</span></div>
+    <div class="can can-blue"><span>PEPSI</span></div>
+    <div class="can can-yellow"><span>GOLD</span></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="products-header">
+      <div class="section-label">המוצרים שלנו</div>
+      <div class="section-title">בחר את הארגז שלך</div>
+      <div class="section-sub">מגוון רחב של ארגזי שתייה — בכל גדלים ולכל אירוע.</div>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <span class="product-emoji">🥤</span>
+        <div class="product-name">ארגז קולה קלאסיק</div>
+        <div class="product-desc">ארגז קוקה קולה קלאסיק — מושלם למסיבות ואירועים</div>
+        <div class="product-footer">
+          <div class="product-price">₪XX <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז קולה קלאסיק')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">💚</span>
+        <div class="product-name">ארגז ספרייט</div>
+        <div class="product-desc">ארגז ספרייט — קריר ומרענן</div>
+        <div class="product-footer">
+          <div class="product-price">₪XX <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז ספרייט')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">🍊</span>
+        <div class="product-name">ארגז פנטה תפוז</div>
+        <div class="product-desc">ארגז פנטה תפוז — טעם פירותי ומתוק</div>
+        <div class="product-footer">
+          <div class="product-price">₪XX <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז פנטה תפוז')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">⚡</span>
+        <div class="product-name">ארגז מעורב</div>
+        <div class="product-desc">שילוב של קולה, ספרייט ופנטה — לפי בחירתך</div>
+        <div class="product-footer">
+          <div class="product-price">₪XX <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז מעורב')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">🎉</span>
+        <div class="product-name">ארגז פנטה לימון</div>
+        <div class="product-desc">ארגז פנטה לימון — טעים, מרענן, מושלם לקיץ</div>
+        <div class="product-footer">
+          <div class="product-price">₪XX <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז פנטה לימון')">הוסף</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="product-emoji">🔵</span>
+        <div class="product-name">ארגז פפסי</div>
+        <div class="product-desc">ארגז פפסי קלאסיק — הטעם המוכר שכולם אוהבים</div>
+        <div class="product-footer">
+          <div class="product-price">₪XX <span>לארגז</span></div>
+          <button class="add-btn" onclick="selectProduct('ארגז פפסי')">הוסף</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">תהליך הזמנה</div>
+    <div class="section-title">איך זה עובד?</div>
+    <div class="section-sub">שלושה שלבים פשוטים — ותוך זמן קצר השתייה אצלך.</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>בחר חבילה</h3>
+        <p>עיין במוצרים שלנו ובחר את החבילה שמתאימה לך</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>שלח הזמנה</h3>
+        <p>מלא את טופס ההזמנה או צור קשר ישיר בוואטסאפ</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>קבל משלוח</h3>
+        <p>נגיע אליך מהר עם החבילה — קרה ומוכנה לשתייה</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER FORM -->
+<section id="order">
+  <div class="container">
+    <div style="text-align:center;">
+      <div class="section-label">הזמנה</div>
+      <div class="section-title">בוא נתחיל</div>
+      <div class="section-sub" style="margin: 0 auto;">מלא את הפרטים ונחזור אליך בהקדם לאישור ההזמנה.</div>
+    </div>
+    <div class="order-box">
+      <h3>טופס הזמנה</h3>
+      <p>השאר את הפרטים שלך ואחזור אליך לאישור ותשלום בהקדם האפשרי.</p>
+      <div class="form-row">
+        <label>שם מלא</label>
+        <input type="text" id="name" placeholder="ישראל ישראלי" />
+      </div>
+      <div class="form-row">
+        <label>טלפון</label>
+        <input type="tel" id="phone" placeholder="050-0000000" />
+      </div>
+      <div class="form-row">
+        <label>כתובת למשלוח</label>
+        <input type="text" id="address" placeholder="רחוב, מספר, עיר" />
+      </div>
+      <div class="form-row">
+        <label>מה תרצה להזמין?</label>
+        <textarea id="product" placeholder="לדוגמה: ארגז קולה, 2 ארגזי ספרייט, ארגז פנטה תפוז..." style="min-height: 120px;"></textarea>
+      </div>
+      <div class="form-row">
+        <label>הערות נוספות (אופציונלי)</label>
+        <textarea id="notes" placeholder="זמן משלוח מועדף, קומה, הנחיות כניסה..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitOrder()">שלח הזמנה בוואטסאפ ↗</button>
+      <div class="success-msg" id="success">✓ ההזמנה נשלחה! נחזור אליך בקרוב.</div>
+      <div class="whatsapp-alt">
+        או שלח ישירות דרך <a href="https://wa.me/972502113545" target="_blank">וואטסאפ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">הלני שתייה</div>
+  <div class="footer-text">© 2025 הלני שתייה · כל הזכויות שמורות</div>
+  <a href="https://wa.me/972502113545" target="_blank" style="color:#25d366; font-size:0.85rem; text-decoration:none; font-weight:500;">📱 וואטסאפ</a>
+</footer>
+
+<script>
+function selectProduct(name) {
+  const ta = document.getElementById('product');
+  ta.value = ta.value ? ta.value + '\n' + name : name;
+  document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => ta.focus(), 400);
+}
+
+function submitOrder() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const product = document.getElementById('product').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if (!name || !phone || !address || !product) {
+    alert('אנא מלא את כל השדות החובה');
+    return;
+  }
+
+  const msg = `הזמנה חדשה מהאתר 🥤\n\nשם: ${name}\nטלפון: ${phone}\nכתובת: ${address}\nהזמנה: ${product}${notes ? '\nהערות: ' + notes : ''}`;
+  const url = `https://wa.me/972502113545?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+
+  document.getElementById('success').style.display = 'block';
+}
+</script>
+</body>
+</html>
