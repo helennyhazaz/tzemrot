@@ -569,7 +569,6 @@
           <option value="מזומן">💵 מזומן</option>
           <option value="ביט">📱 ביט</option>
           <option value="פייבוקס">📱 פייבוקס</option>
-          <option value="paypal">💳 אשראי / PayPal</option>
         </select>
       </div>
       <div class="form-row">
@@ -577,7 +576,6 @@
         <textarea id="product" placeholder="לדוגמה: ארגז קולה, 2 ארגזי ספרייט, ארגז פנטה תפוז..." style="min-height: 120px;"></textarea>
       </div>
       <button class="submit-btn" id="submit-btn" onclick="submitOrder()">שלח הזמנה ↗</button>
-      <button class="submit-btn" id="paypal-btn" onclick="submitPayPal()" style="display:none; background:linear-gradient(135deg,#0070ba,#1546a0); margin-top:0.5rem;">💳 שלם עכשיו עם PayPal</button>
       <div class="success-msg" id="success">✓ ההזמנה נשלחה! נחזור אליך בקרוב.</div>
     </div>
   </div>
@@ -804,22 +802,6 @@ function submitOrder() {
   sendToFormspree();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('payment').addEventListener('change', function() {
-    const isPaypal = this.value === 'paypal';
-    document.getElementById('submit-btn').style.display = isPaypal ? 'none' : 'block';
-    document.getElementById('paypal-btn').style.display = isPaypal ? 'block' : 'none';
-  });
-});
-
-function submitPayPal() {
-  if (!validateOrder()) return;
-  sendToFormspree('PayPal');
-  const amount = cartTotal > 0 ? cartTotal.toFixed(2) : '0';
-  const desc = encodeURIComponent('הזמנה שתייה');
-  window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=gambacafegindi%40gmail.com&amount=' + amount + '&currency_code=ILS&item_name=' + desc, '_blank');
-  document.getElementById('success').style.display = 'block';
-}
 </script>
 </body>
 </html>
