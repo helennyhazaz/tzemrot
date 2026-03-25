@@ -556,9 +556,19 @@
         <label>טלפון</label>
         <input type="tel" id="phone" placeholder="050-0000000" />
       </div>
-      <div class="form-row">
-        <label>בניין / מגדל</label>
-        <input type="text" id="building" placeholder="שם הבניין או המגדל" />
+      <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+        <div>
+          <label>סוג</label>
+          <select id="building-type" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.75rem 1rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.95rem; outline:none;">
+            <option value="">בחר...</option>
+            <option value="בניין">בניין</option>
+            <option value="מגדל">מגדל</option>
+          </select>
+        </div>
+        <div>
+          <label>שם הבניין / מגדל</label>
+          <input type="text" id="building" placeholder="לדוגמה: 4" />
+        </div>
       </div>
       <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
         <div>
@@ -646,13 +656,15 @@ function goToOrder() {
 function submitOrder() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const building = document.getElementById('building').value.trim();
+  const buildingType = document.getElementById('building-type').value;
+  const buildingName = document.getElementById('building').value.trim();
+  const building = buildingType && buildingName ? buildingType + ' ' + buildingName : '';
   const floor = document.getElementById('floor').value.trim();
   const apartment = document.getElementById('apartment').value.trim();
   const payment = document.getElementById('payment').value;
   const product = document.getElementById('product').value.trim();
 
-  if (!name || !phone || !building || !floor || !apartment || !payment || !product) {
+  if (!name || !phone || !buildingType || !buildingName || !floor || !apartment || !payment || !product) {
     alert('אנא מלא את כל השדות החובה');
     return;
   }
