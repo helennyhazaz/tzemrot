@@ -545,7 +545,7 @@
       <h3>טופס הזמנה</h3>
       <p>השאר את הפרטים שלך ואחזור אליך לאישור ותשלום בהקדם האפשרי.</p>
       <div class="form-row">
-        <label>שם מלא</label>
+        <label>שם</label>
         <input type="text" id="name" placeholder="ישראל ישראלי" />
       </div>
       <div class="form-row">
@@ -578,10 +578,6 @@
       <div class="form-row">
         <label>מה תרצה להזמין?</label>
         <textarea id="product" placeholder="לדוגמה: ארגז קולה, 2 ארגזי ספרייט, ארגז פנטה תפוז..." style="min-height: 120px;"></textarea>
-      </div>
-      <div class="form-row">
-        <label>הערות נוספות (אופציונלי)</label>
-        <textarea id="notes" placeholder="זמן משלוח מועדף, קומה, הנחיות כניסה..."></textarea>
       </div>
       <button class="submit-btn" onclick="submitOrder()">שלח הזמנה בוואטסאפ ↗</button>
       <div class="success-msg" id="success">✓ ההזמנה נשלחה! נחזור אליך בקרוב.</div>
@@ -654,14 +650,12 @@ function submitOrder() {
   const apartment = document.getElementById('apartment').value.trim();
   const payment = document.getElementById('payment').value;
   const product = document.getElementById('product').value.trim();
-  const notes = document.getElementById('notes').value.trim();
-
   if (!name || !phone || !building || !floor || !apartment || !payment || !product) {
     alert('אנא מלא את כל השדות החובה');
     return;
   }
 
-  const msg = `הזמנה חדשה מהאתר 🥤\n\nשם: ${name}\nטלפון: ${phone}\nבניין/מגדל: ${building}\nקומה: ${floor} | דירה: ${apartment}\nתשלום: ${payment}\nהזמנה: ${product}${notes ? '\nהערות: ' + notes : ''}`;
+  const msg = `הזמנה חדשה מהאתר 🥤\n\nשם: ${name}\nטלפון: ${phone}\nבניין/מגדל: ${building}\nקומה: ${floor} | דירה: ${apartment}\nתשלום: ${payment}\nהזמנה: ${product}`;
   const url = `https://wa.me/972502113545?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 
