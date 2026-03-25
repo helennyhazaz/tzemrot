@@ -379,7 +379,7 @@
         </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectWithFlavor('ארגז קולה','cola-variant')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז קולה','cola-variant',114)">הוסף</button>
         </div>
       </div>
       <div class="product-card">
@@ -393,7 +393,7 @@
         </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectWithFlavor('ארגז ספרייט','sprite-variant')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז ספרייט','sprite-variant',114)">הוסף</button>
         </div>
       </div>
       <div class="product-card">
@@ -407,7 +407,7 @@
         </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectWithFlavor('ארגז פאנטה','fanta-variant')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז פאנטה','fanta-variant',114)">הוסף</button>
         </div>
       </div>
     </div>
@@ -424,7 +424,7 @@
         <div class="product-desc">מים מינרליים — טריים ומרעננים לכל אירוע</div>
         <div class="product-footer">
           <div class="product-price">₪75 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז מים 500 מל')">הוסף</button>
+          <button class="add-btn" onclick="selectProduct('ארגז מים 500 מל',75)">הוסף</button>
         </div>
       </div>
       <div class="product-card">
@@ -433,7 +433,7 @@
         <div class="product-desc">סודה קלאסית — בועות מרעננות לכל שתייה</div>
         <div class="product-footer">
           <div class="product-price">₪95 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז סודה')">הוסף</button>
+          <button class="add-btn" onclick="selectProduct('ארגז סודה',95)">הוסף</button>
         </div>
       </div>
       <div class="product-card">
@@ -448,7 +448,7 @@
         </select>
         <div class="product-footer">
           <div class="product-price">₪95 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectWithFlavor('ארגז סודה בטעמים','flavor-soda')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז סודה בטעמים','flavor-soda',95)">הוסף</button>
         </div>
       </div>
       <div class="product-card">
@@ -462,7 +462,7 @@
         </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectWithFlavor('ארגז פפסי','pepsi-variant')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז פפסי','pepsi-variant',114)">הוסף</button>
         </div>
       </div>
       <div class="product-card">
@@ -500,7 +500,7 @@
         </select>
         <div class="product-footer">
           <div class="product-price">₪185 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectWithFlavor('ארגז מונסטר','monster-variant')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז מונסטר','monster-variant',185)">הוסף</button>
         </div>
       </div>
     </div>
@@ -594,7 +594,7 @@
 
 <!-- CART FAB -->
 <button class="cart-fab" id="cartFab" onclick="goToOrder()">
-  🛒 עגלה <span class="cart-count" id="cartCount">0</span>
+  🛒 <span class="cart-count" id="cartCount">0</span> פריטים · <span id="cartTotal">₪0</span>
 </button>
 
 <!-- FOOTER -->
@@ -615,24 +615,27 @@ function updateBeerPrice() {
 function selectBeer() {
   const sel = document.getElementById('beer-variant');
   if (!sel.value) { alert('אנא בחר סוג בירה'); return; }
-  const price = sel.options[sel.selectedIndex].dataset.price;
-  selectProduct('ארגז בירה שחורה ' + sel.value + ' — ₪' + price);
+  const price = parseInt(sel.options[sel.selectedIndex].dataset.price);
+  selectProduct('ארגז בירה שחורה ' + sel.value, price);
 }
 
-function selectWithFlavor(name, flavorId) {
+function selectWithFlavor(name, flavorId, price) {
   const flavor = document.getElementById(flavorId).value;
-  if (!flavor) { alert('אנא בחר טעם'); return; }
-  selectProduct(name + ' — ' + flavor);
+  if (!flavor) { alert('אנא בחר סוג / טעם'); return; }
+  selectProduct(name + ' — ' + flavor, price);
 }
 
 let cartCount = 0;
+let cartTotal = 0;
 
-function selectProduct(name) {
+function selectProduct(name, price) {
   const ta = document.getElementById('product');
   ta.value = ta.value ? ta.value + '\n' + name : name;
   cartCount++;
+  cartTotal += price || 0;
   const fab = document.getElementById('cartFab');
   document.getElementById('cartCount').textContent = cartCount;
+  document.getElementById('cartTotal').textContent = '₪' + cartTotal;
   fab.classList.add('show');
   fab.classList.remove('pop');
   void fab.offsetWidth;
