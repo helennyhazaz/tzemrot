@@ -544,24 +544,9 @@
         <label>שכונה</label>
         <select id="neighborhood" onchange="onNeighborhoodChange()">
           <option value="">בחר שכונה...</option>
-          <option value="גינדי">גינדי</option>
-          <option value="שרונה">שרונה</option>
-          <option value="יהודית">יהודית</option>
+          <option value="בבלי">בבלי</option>
+          <option value="צמרות">צמרות</option>
         </select>
-      </div>
-      <div id="building-row" style="display:none; gap:0.8rem; grid-template-columns:1fr 1fr;" class="form-row">
-        <div id="building-type-wrap">
-          <label>סוג</label>
-          <select id="building-type" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.75rem 1rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.95rem; outline:none;">
-            <option value="">בחר...</option>
-            <option value="בניין">בניין</option>
-            <option value="מגדל">מגדל</option>
-          </select>
-        </div>
-        <div>
-          <label>שם הבניין / מגדל</label>
-          <input type="text" id="building" placeholder="לדוגמה: NXPR" />
-        </div>
       </div>
       <div id="address-row" class="form-row" style="display:none;">
         <label>כתובת</label>
@@ -764,30 +749,12 @@ window.addEventListener('load', function() {
 
 function onNeighborhoodChange() {
   const val = document.getElementById('neighborhood').value;
-  const buildingRow = document.getElementById('building-row');
   const addressRow = document.getElementById('address-row');
-  const buildingInput = document.getElementById('building');
   const addressInput = document.getElementById('address');
-  if (val === 'יהודית') {
-    buildingRow.style.display = 'none';
+  if (val === 'בבלי' || val === 'צמרות') {
     addressRow.style.display = '';
-    addressInput.placeholder = 'לדוגמה: איסרליש 52';
-  } else if (val === 'שרונה') {
-    buildingRow.style.display = 'grid';
-    buildingRow.style.gridTemplateColumns = '1fr';
-    addressRow.style.display = 'none';
-    buildingInput.placeholder = 'לדוגמה: B';
-    document.getElementById('building-type-wrap').style.display = 'none';
-    document.getElementById('building-type').value = 'מגדל';
-  } else if (val === 'גינדי') {
-    buildingRow.style.display = 'grid';
-    buildingRow.style.gridTemplateColumns = '1fr 1fr';
-    addressRow.style.display = 'none';
-    buildingInput.placeholder = 'לדוגמה: 4';
-    document.getElementById('building-type-wrap').style.display = '';
-    document.getElementById('building-type').value = '';
+    addressInput.placeholder = 'לדוגמה: רחוב השקד 5';
   } else {
-    buildingRow.style.display = 'none';
     addressRow.style.display = 'none';
   }
 }
@@ -796,10 +763,7 @@ function submitOrder() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const neighborhood = document.getElementById('neighborhood').value;
-  const isYehudit = neighborhood === 'יהודית';
-  const buildingType = isYehudit ? '' : document.getElementById('building-type').value;
-  const buildingName = isYehudit ? '' : document.getElementById('building').value.trim();
-  const address = isYehudit ? document.getElementById('address').value.trim() : '';
+  const address = document.getElementById('address').value.trim();
   const floor = document.getElementById('floor').value.trim();
   const apartment = document.getElementById('apartment').value.trim();
   const payment = document.getElementById('payment').value;
@@ -809,18 +773,12 @@ function submitOrder() {
     alert('אנא מלא את כל השדות החובה');
     return;
   }
-  if (isYehudit && !address) {
+  if (!address) {
     alert('אנא מלא כתובת');
     return;
   }
-  if (!isYehudit && (!buildingType || !buildingName)) {
-    alert('אנא בחר סוג ושם בניין / מגדל');
-    return;
-  }
 
-  const location = isYehudit
-    ? `יהודית — ${address}`
-    : `${neighborhood} — ${buildingType} ${buildingName}`;
+  const location = `${neighborhood} — ${address}`;
 
   // שלח למייל דרך Formspree
   fetch('https://formspree.io/f/xlgoroqr', {
