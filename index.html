@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>הלני שתייה</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://www.paypal.com/sdk/js?client-id=v148mvVRTOAxdSOjl00GaGTQ_p0KHoSmHIdlHTMyFDU&currency=ILS" defer></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -569,13 +570,15 @@
           <option value="מזומן">💵 מזומן</option>
           <option value="ביט">📱 ביט</option>
           <option value="פייבוקס">📱 פייבוקס</option>
+          <option value="paypal">💳 אשראי / PayPal</option>
         </select>
       </div>
       <div class="form-row">
         <label>מה תרצה להזמין?</label>
         <textarea id="product" placeholder="לדוגמה: ארגז קולה, 2 ארגזי ספרייט, ארגז פנטה תפוז..." style="min-height: 120px;"></textarea>
       </div>
-      <button class="submit-btn" onclick="submitOrder()">שלח הזמנה ↗</button>
+      <button class="submit-btn" id="submit-btn" onclick="submitOrder()">שלח הזמנה ↗</button>
+      <div id="paypal-button-container" style="display:none; margin-top:1rem;"></div>
       <div class="success-msg" id="success">✓ ההזמנה נשלחה! נחזור אליך בקרוב.</div>
     </div>
   </div>
@@ -759,7 +762,7 @@ function onNeighborhoodChange() {
   }
 }
 
-function submitOrder() {
+function getOrderFields() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const neighborhood = document.getElementById('neighborhood').value;
@@ -768,34 +771,76 @@ function submitOrder() {
   const apartment = document.getElementById('apartment').value.trim();
   const payment = document.getElementById('payment').value;
   const product = document.getElementById('product').value.trim();
-
-  if (!name || !phone || !neighborhood || !floor || !apartment || !payment || !product) {
-    alert('אנא מלא את כל השדות החובה');
-    return;
-  }
-  if (!address) {
-    alert('אנא מלא כתובת');
-    return;
-  }
-
   const location = `${neighborhood} — ${address}`;
+  return { name, phone, neighborhood, address, floor, apartment, payment, product, location };
+}
 
-  // שלח למייל דרך Formspree
+function validateOrder() {
+  const f = getOrderFields();
+  if (!f.name || !f.phone || !f.neighborhood || !f.floor || !f.apartment || !f.payment || !f.product) {
+    alert('אנא מלא את כל השדות החובה'); return false;
+  }
+  if (!f.address) { alert('אנא מלא כתובת'); return false; }
+  return true;
+}
+
+function sendToFormspree(paymentLabel) {
+  const f = getOrderFields();
   fetch('https://formspree.io/f/xlgoroqr', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
-      שם: name,
-      טלפון: phone,
-      מיקום: location,
-      קומה: floor,
-      דירה: apartment,
-      תשלום: payment,
-      הזמנה: product
+      שם: f.name, טלפון: f.phone, מיקום: f.location,
+      קומה: f.floor, דירה: f.apartment,
+      תשלום: paymentLabel || f.payment,
+      הזמנה: f.product,
+      סכום: '₪' + cartTotal
     })
   });
-
   document.getElementById('success').style.display = 'block';
+}
+
+function submitOrder() {
+  if (!validateOrder()) return;
+  sendToFormspree();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('payment').addEventListener('change', function() {
+    const isPaypal = this.value === 'paypal';
+    document.getElementById('submit-btn').style.display = isPaypal ? 'none' : 'block';
+    document.getElementById('paypal-button-container').style.display = isPaypal ? 'block' : 'none';
+  });
+
+  if (typeof paypal !== 'undefined') {
+    initPayPal();
+  } else {
+    window.addEventListener('load', initPayPal);
+  }
+});
+
+function initPayPal() {
+  if (typeof paypal === 'undefined') return;
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      if (!validateOrder()) return Promise.reject();
+      const amount = cartTotal > 0 ? cartTotal.toFixed(2) : '10.00';
+      return actions.order.create({
+        purchase_units: [{
+          amount: { value: amount, currency_code: 'ILS' },
+          description: document.getElementById('product').value.substring(0, 127)
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        sendToFormspree('PayPal ✓ ' + details.id);
+      });
+    },
+    onError: function(err) {
+      alert('שגיאה בתשלום, נסה שוב');
+    }
+  }).render('#paypal-button-container');
 }
 </script>
 </body>
