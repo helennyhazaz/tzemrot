@@ -365,55 +365,43 @@
       <div class="product-card">
         <span class="product-emoji">🥤</span>
         <div class="product-name">ארגז קולה</div>
-        <div class="product-desc">קוקה קולה קלאסיק — הטעם המוכר שכולם אוהבים</div>
+        <div class="product-desc">קוקה קולה — הטעם המוכר שכולם אוהבים</div>
+        <select id="cola-variant" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר סוג...</option>
+          <option>קולה רגילה</option>
+          <option>קולה זירו</option>
+        </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז קולה')">הוסף</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <span class="product-emoji">⚫</span>
-        <div class="product-name">ארגז קולה זירו</div>
-        <div class="product-desc">קוקה קולה זירו — ללא סוכר, עם כל הטעם</div>
-        <div class="product-footer">
-          <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז קולה זירו')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז קולה','cola-variant')">הוסף</button>
         </div>
       </div>
       <div class="product-card">
         <span class="product-emoji">💚</span>
         <div class="product-name">ארגז ספרייט</div>
         <div class="product-desc">ספרייט — לימון ליים קריר ומרענן</div>
+        <select id="sprite-variant" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר סוג...</option>
+          <option>ספרייט רגיל</option>
+          <option>ספרייט זירו</option>
+        </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז ספרייט')">הוסף</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <span class="product-emoji">🌿</span>
-        <div class="product-name">ארגז ספרייט זירו</div>
-        <div class="product-desc">ספרייט זירו — ללא סוכר, מרענן כמו תמיד</div>
-        <div class="product-footer">
-          <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז ספרייט זירו')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז ספרייט','sprite-variant')">הוסף</button>
         </div>
       </div>
       <div class="product-card">
         <span class="product-emoji">🍊</span>
         <div class="product-name">ארגז פאנטה</div>
-        <div class="product-desc">פאנטה תפוז — טעם פירותי ומתוק לכל גיל</div>
+        <div class="product-desc">פאנטה — טעם פירותי ומתוק לכל גיל</div>
+        <select id="fanta-variant" style="width:100%; background:#1e1e1e; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.5rem 0.8rem; color:#fff; font-family:'Heebo',sans-serif; font-size:0.85rem; margin-bottom:1rem; outline:none;">
+          <option value="">בחר סוג...</option>
+          <option>פאנטה רגילה</option>
+          <option>פאנטה זירו</option>
+        </select>
         <div class="product-footer">
           <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז פאנטה')">הוסף</button>
-        </div>
-      </div>
-      <div class="product-card">
-        <span class="product-emoji">🍋</span>
-        <div class="product-name">ארגז פאנטה זירו</div>
-        <div class="product-desc">פאנטה זירו — פירותי ומתוק ללא סוכר</div>
-        <div class="product-footer">
-          <div class="product-price">₪114 <span>לארגז</span></div>
-          <button class="add-btn" onclick="selectProduct('ארגז פאנטה זירו')">הוסף</button>
+          <button class="add-btn" onclick="selectWithFlavor('ארגז פאנטה','fanta-variant')">הוסף</button>
         </div>
       </div>
     </div>
