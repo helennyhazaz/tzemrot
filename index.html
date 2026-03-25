@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>הלני שתייה</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<script src="https://www.paypal.com/sdk/js?client-id=v148mvVRTOAxdSOjl00GaGTQ_p0KHoSmHIdlHTMyFDU&currency=ILS"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -578,7 +577,7 @@
         <textarea id="product" placeholder="לדוגמה: ארגז קולה, 2 ארגזי ספרייט, ארגז פנטה תפוז..." style="min-height: 120px;"></textarea>
       </div>
       <button class="submit-btn" id="submit-btn" onclick="submitOrder()">שלח הזמנה ↗</button>
-      <div id="paypal-button-container" style="display:none; margin-top:1rem;"></div>
+      <button class="submit-btn" id="paypal-btn" onclick="submitPayPal()" style="display:none; background:linear-gradient(135deg,#0070ba,#1546a0); margin-top:0.5rem;">💳 שלם עכשיו עם PayPal</button>
       <div class="success-msg" id="success">✓ ההזמנה נשלחה! נחזור אליך בקרוב.</div>
     </div>
   </div>
@@ -805,43 +804,21 @@ function submitOrder() {
   sendToFormspree();
 }
 
-let paypalRendered = false;
-
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('payment').addEventListener('change', function() {
     const isPaypal = this.value === 'paypal';
     document.getElementById('submit-btn').style.display = isPaypal ? 'none' : 'block';
-    const container = document.getElementById('paypal-button-container');
-    container.style.display = isPaypal ? 'block' : 'none';
-    if (isPaypal && !paypalRendered) {
-      initPayPal();
-    }
+    document.getElementById('paypal-btn').style.display = isPaypal ? 'block' : 'none';
   });
 });
 
-function initPayPal() {
-  if (typeof paypal === 'undefined') { alert('שגיאה בטעינת PayPal, נסה לרענן'); return; }
-  paypalRendered = true;
-  paypal.Buttons({
-    createOrder: function(data, actions) {
-      if (!validateOrder()) return Promise.reject(new Error('invalid'));
-      const amount = cartTotal > 0 ? cartTotal.toFixed(2) : '10.00';
-      return actions.order.create({
-        purchase_units: [{
-          amount: { value: amount, currency_code: 'ILS' },
-          description: document.getElementById('product').value.substring(0, 127)
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        sendToFormspree('PayPal ✓ ' + details.id);
-      });
-    },
-    onError: function(err) {
-      alert('שגיאה בתשלום, נסה שוב');
-    }
-  }).render('#paypal-button-container');
+function submitPayPal() {
+  if (!validateOrder()) return;
+  sendToFormspree('PayPal');
+  const amount = cartTotal > 0 ? cartTotal.toFixed(2) : '0';
+  const desc = encodeURIComponent('הזמנה שתייה');
+  window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=gambacafegindi%40gmail.com&amount=' + amount + '&currency_code=ILS&item_name=' + desc, '_blank');
+  document.getElementById('success').style.display = 'block';
 }
 </script>
 </body>
