@@ -506,7 +506,7 @@
       <div class="step">
         <div class="step-num">3</div>
         <h3>קבל משלוח</h3>
-        <p>נגיע אליך מהר עם החבילה — קרה ומוכנה לשתייה</p>
+        <p>נגיע אליך מהר עם החבילה — מוכנה לשתייה</p>
       </div>
     </div>
   </div>
@@ -645,12 +645,12 @@ const catalogItems = [
   {emoji:'🌴', name:'ארגז פאנטה אקזוטי',                    price:114},
   {emoji:'🍓', name:'ארגז פאנטה תות',                        price:114},
   {emoji:'🍇', name:'ארגז פאנטה ענבים',                      price:114},
-  // פפסי / מירנדה / סבן אפ ₪96
-  {emoji:'🔵', name:'ארגז פפסי',                             price:96},
-  {emoji:'🔵', name:'ארגז פפסי מקס',                         price:96},
-  {emoji:'🍊', name:'ארגז מירנדה',                           price:96},
-  {emoji:'💚', name:'ארגז סבן אפ',                           price:96},
-  {emoji:'🌿', name:'ארגז סבן אפ זירו',                      price:96},
+  // פפסי / מירנדה / סבן אפ ₪114
+  {emoji:'🔵', name:'ארגז פפסי',                             price:114},
+  {emoji:'🔵', name:'ארגז פפסי מקס',                         price:114},
+  {emoji:'🍊', name:'ארגז מירנדה',                           price:114},
+  {emoji:'💚', name:'ארגז סבן אפ',                           price:114},
+  {emoji:'🌿', name:'ארגז סבן אפ זירו',                      price:114},
   // שוופס זכוכית ₪130
   {emoji:'🍎', name:'ארגז שוופס תפוח זכוכית',               price:130},
   {emoji:'🍓', name:'ארגז שוופס תות ליים זכוכית',           price:130},
@@ -728,6 +728,30 @@ function searchProducts() {
 function goToOrder() {
   document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
 }
+
+// קבלת הזמנה מדף השתייה
+window.addEventListener('load', function() {
+  const pending = sessionStorage.getItem('pendingOrder');
+  const pendingTotal = sessionStorage.getItem('pendingTotal');
+  const pendingCount = sessionStorage.getItem('pendingCount');
+  if (pending) {
+    document.getElementById('product').value = pending;
+    if (pendingTotal) {
+      cartTotal = parseInt(pendingTotal);
+      cartCount = parseInt(pendingCount) || pending.split('\n').length;
+      const fab = document.getElementById('cartFab');
+      document.getElementById('cartCount').textContent = cartCount;
+      document.getElementById('cartTotal').textContent = '₪' + cartTotal;
+      fab.classList.add('show');
+    }
+    sessionStorage.removeItem('pendingOrder');
+    sessionStorage.removeItem('pendingTotal');
+    sessionStorage.removeItem('pendingCount');
+    setTimeout(() => {
+      document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+    }, 400);
+  }
+});
 
 function onNeighborhoodChange() {
   const val = document.getElementById('neighborhood').value;
