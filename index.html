@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>הלני שתייה</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<script src="https://www.paypal.com/sdk/js?client-id=v148mvVRTOAxdSOjl00GaGTQ_p0KHoSmHIdlHTMyFDU&currency=ILS" defer></script>
+<script src="https://www.paypal.com/sdk/js?client-id=v148mvVRTOAxdSOjl00GaGTQ_p0KHoSmHIdlHTMyFDU&currency=ILS"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -805,25 +805,26 @@ function submitOrder() {
   sendToFormspree();
 }
 
+let paypalRendered = false;
+
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('payment').addEventListener('change', function() {
     const isPaypal = this.value === 'paypal';
     document.getElementById('submit-btn').style.display = isPaypal ? 'none' : 'block';
-    document.getElementById('paypal-button-container').style.display = isPaypal ? 'block' : 'none';
+    const container = document.getElementById('paypal-button-container');
+    container.style.display = isPaypal ? 'block' : 'none';
+    if (isPaypal && !paypalRendered) {
+      initPayPal();
+    }
   });
-
-  if (typeof paypal !== 'undefined') {
-    initPayPal();
-  } else {
-    window.addEventListener('load', initPayPal);
-  }
 });
 
 function initPayPal() {
-  if (typeof paypal === 'undefined') return;
+  if (typeof paypal === 'undefined') { alert('שגיאה בטעינת PayPal, נסה לרענן'); return; }
+  paypalRendered = true;
   paypal.Buttons({
     createOrder: function(data, actions) {
-      if (!validateOrder()) return Promise.reject();
+      if (!validateOrder()) return Promise.reject(new Error('invalid'));
       const amount = cartTotal > 0 ? cartTotal.toFixed(2) : '10.00';
       return actions.order.create({
         purchase_units: [{
